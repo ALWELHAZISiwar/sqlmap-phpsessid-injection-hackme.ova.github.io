@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection with SQLMAP</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #ff85c0;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid #ff69b4;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        header p {
+            font-size: 1.2rem;
+        }
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #ff69b4;
+            margin-bottom: 10px;
+        }
+        a {
+            color: #ff69b4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background: #f9f2f4;
+            color: #c7254e;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #f9f2f4;
+            color: #c7254e;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ SQL Injection with SQLMAP</h1>
+        <p>By Siwar ALWELHAZI 💻 Cybersecurity Engineer</p>
+    </header>
+    <main>
+        <h2>💡 Project Description</h2>
+        <p>This project demonstrates how to perform a SQL injection attack using the SQLMAP tool with a PHPSESSID cookie for authentication. This exercise showcases techniques for discovering vulnerabilities in web applications, leveraging tools like 🔍 Nmap, 🌐 Dirbuster, and 🛠️ SQLMAP.</p>
+        <p>⚠️ <strong>This project is strictly for ethical purposes, conducted in a controlled environment, and should only be replicated with permission.</strong></p>
+        <hr>
+        <h2>🖥️ Prerequisites</h2>
+        <ul>
+            <li>🐧 <strong>Kali Linux VM</strong>: Used as the attack machine.</li>
+            <li>🏴 <strong>Hackme: 1 VM</strong>: The vulnerable target machine. <a href="https://www.vulnhub.com/entry/hackme-1,330/" target="_blank">Download here</a>.</li>
+            <li>I used VMWARE for virtualization.</li>
+        </ul>
+        <hr>
+        <h2>⚙️ Steps Performed</h2>
+        <h3>1. 🔍 Discover the Target's IP Address</h3>
+        <pre>
+nmap -p- -A &lt;target-ip&gt;
+        </pre>
+        <p>Ensure that the target machine is accessible and port 80 is open.</p>
+        <h3>2. 🌐 Web Directory Enumeration</h3>
+        <p>Run Dirbuster (set to medium intensity) to discover directories and files on the web server. <a href="https://raw.githubusercontent.com/daviddias/node-dirbuster/refs/heads/master/lists/directory-list-2.3-medium.txt" target="_blank">Download wordlist</a>.</p>
+        <pre>
+Dirbuster &gt; Input Target IP &gt; Medium Scan
+        </pre>
+        <h3>3. 🛠️ Account Creation and Login</h3>
+        <p>Navigate to the web application on the target machine. Create a new user account and log in.</p>
+        <h3>4. 🧩 Extracting the PHPSESSID Cookie</h3>
+        <p>Inspect the network traffic on the <strong>welcome page</strong> (e.g., using browser developer tools). Identify and extract the <code>PHPSESSID</code> value from the cookies.</p>
+        <h3>5. 💉 SQL Injection with SQLMAP</h3>
+        <p>Use SQLMAP to perform SQL injection on the target application's URL, passing the <code>PHPSESSID</code> cookie for authentication.</p>
+        <pre>
+sqlmap -u http://&lt;target-ip&gt;/welcome.php --cookie "PHPSESSID=&lt;session-id&gt;" --forms --dbs
+        </pre>
+        <p>Replace <code>&lt;target-ip&gt;</code> with the discovered IP address of the target. Replace <code>&lt;session-id&gt;</code> with the extracted PHPSESSID value.</p>
+        <h3>6. 🗂️ Database Enumeration</h3>
+        <p>Once SQLMAP identifies the vulnerability, enumerate the databases using the <code>--dbs</code> option.</p>
+        <hr>
+        <h2>📊 Results</h2>
+        <p>By following the steps above, SQLMAP successfully identifies and exploits a SQL injection vulnerability in the web application. The database structure is enumerated, demonstrating how attackers can leverage insecure coding practices to compromise systems.</p>
+        <hr>
+        <h2>🤝 Ethical Considerations</h2>
+        <p>This project was conducted in a controlled lab environment and is intended solely for educational purposes.</p>
+        <ul>
+            <li>✅ <strong>Only perform such activities on systems you own or have explicit permission to test.</strong></li>
+            <li>❌ <strong>Unauthorized use of these techniques is illegal and unethical.</strong></li>
+        </ul>
+        <hr>
+        <h2>⚠️ Disclaimer</h2>
+        <p>The information provided here is for educational and ethical hacking purposes only. The author assumes no responsibility for misuse or illegal activities conducted using this information. Always follow applicable laws and ethical guidelines.</p>
+    </main>
+    <footer>
+        <p>💖 Created by <strong>Siwar ALWELHAZI</strong> | 💻 Cybersecurity Engineer</p>
+    </footer>
+</body>
+</html>
